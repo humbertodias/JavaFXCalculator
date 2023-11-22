@@ -1,0 +1,29 @@
+.equals {
+	-fx-background-color: rgb(123, 123, 255);
+}
+
+.equals:pressed {
+	-fx-border-width: 1px;
+	-fx-border-color: black;
+	-fx-border-radius: 3px;
+}
+
+.operator {
+	-fx-background-color: rgb(173, 173, 173);
+}
+
+.operator:pressed {
+	-fx-border-width: 1px;
+	-fx-border-color: black;
+	-fx-border-radius: 3px;
+}
+
+.number {
+	-fx-background-color: rgb(221, 221, 221);
+}
+
+.number:pressed {
+	-fx-border-width: 1px;
+	-fx-border-color: black;
+	-fx-border-radius: 3px;
+}
