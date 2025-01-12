@@ -20,9 +20,9 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '21'
-          distribution: 'temurin'
+          distribution: 'zulu'
           java-package: 'jdk+fx'
-          cache: 'maven'
+#          cache: 'maven'
 
       - name: Install dependencies
         run: mvn clean install
