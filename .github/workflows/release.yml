@@ -45,10 +45,14 @@ jobs:
         id: tag
         run: echo "TAG_NAME=$(echo ${{ github.ref }} | sed 's/refs\/tags\///')" >> $GITHUB_ENV
 
-      - name: Download Release Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: app-${{ matrix.os }}
+      - name: Download Release Artifacts for all platforms
+        run: |
+          platforms=("ubuntu-latest" "macos-latest" "windows-latest")
+          for platform in "${platforms[@]}"; do
+            echo "Downloading artifact for $platform"
+            actions/download-artifact@v4:
+              name: app-$platform
+          done
 
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
