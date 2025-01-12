@@ -20,7 +20,8 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '21'
-          distribution: 'adoptopenjdk'
+          distribution: 'corretto'
+          java-package: 'jdk+fx'
           cache: 'maven'
 
       - name: Install dependencies
