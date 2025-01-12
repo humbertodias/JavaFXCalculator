@@ -28,6 +28,10 @@ jobs:
       - name: Build with Maven (JLink)
         run: mvn clean javafx:jlink
 
+      - name: Rename artifact
+        run: |
+          mv target/*.zip target/app-${{ matrix.os }}.zip
+
       - name: Upload Release Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -65,3 +69,4 @@ jobs:
         with:
           tag: ${{ env.TAG_NAME }}
           artifacts: "*.zip"
+          removeArtifacts: trues
