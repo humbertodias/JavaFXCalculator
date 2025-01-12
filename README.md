@@ -35,6 +35,8 @@
     ```bash
     mvn javafx:run
     ```
+![imagen](https://github.com/user-attachments/assets/4dac66cc-3d78-41e7-b343-369c48e92202)
+
 
 ---
 
