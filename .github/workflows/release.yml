@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
       - name: Checkout Repository
@@ -47,8 +47,20 @@ jobs:
           mkdir -p release
           mv target/app.zip release/app-${{ env.Platform }}.zip
 
+      - name: Check if Tag Exists
+        id: check_tag
+        run: |
+          echo "Checking if tag $TAG_NAME already exists..."
+          if git tag -l | grep -q "^$TAG_NAME$"; then
+            echo "Tag $TAG_NAME already exists. Skipping tag creation."
+          else
+            echo "Tag $TAG_NAME does not exist. Creating new tag."
+            git tag $TAG_NAME
+            git push origin $TAG_NAME
+          fi
+
       - name: Upload Release Artifact
         uses: ncipollo/release-action@v1
         with:
           artifacts: release/app-${{ env.Platform }}.zip
-          tag: v1.0.${{ github.run_number }}
+          tag: v1.0.${{ env.TAG_NAME }}
