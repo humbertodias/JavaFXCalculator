@@ -4,7 +4,7 @@
 ## Requirements
 - **Java**: 21+
 - **Maven**: 3.6.0+
-- **SDKMAN**: [Install SDKMAN](http://sdkman.io)
+- **[SDKMAN](http://sdkman.io)**
 
 ---
 
@@ -42,27 +42,33 @@
 
 To create a platform-specific package (such as `.app` for macOS or `.exe` for Windows), use the `jlink` goal:
 
-```bash
-mvn javafx:jlink
-```
+   ```bash
+   mvn javafx:jlink
+   ```
 
 The generated package can be found in the `target` directory (e.g., `target/app.zip`).
 
 ---
 
-## Executable JAR
+## Manual Executable JAR
 
 To run the application as an executable JAR, you will need to download JavaFX from [Gluon](https://gluonhq.com/products/javafx/) for your platform.
+1. Setup JAVAFX_SDK
+   ```bash
+   cd $HOME/Downloads
+   wget https://download2.gluonhq.com/openjfx/23.0.1/openjfx-23.0.1_osx-aarch64_bin-sdk.zip
+   unzip openjfx-23.0.1_osx-aarch64_bin-sdk.zip
+   export JAVAFX_SDK=$HOME/Downloads/javafx-sdk-23.0.1
+   ```
 
-1. Build the JAR:
+2. Build the JAR:
     ```bash
     mvn clean package
     ```
 
-2. Run the application with the following command, making sure to specify the JavaFX SDK path:
+3. Run the application with the following command, making sure to specify the JavaFX SDK path:
     ```bash
-   JAVAFX_SDK=~/Downloads/javafx-sdk-23.0.1
-    java --add-modules javafx.controls,javafx.fxml --module-path $JAVAFX_SDK/lib -jar target/JavaFXCalculator-1.0-SNAPSHOT.jar
+    java --add-modules javafx.controls,javafx.fxml --module-path $JAVAFX_SDK/lib -jar target/JavaFXCalculator-1.0.jar
     ```
 
 ---
