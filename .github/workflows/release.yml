@@ -47,4 +47,4 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: release/app-${{ env.Platform }}.zip
-          tag: v1.0.${GITHUB_RUN_NUMBER}
+          tag: v1.0.${{ github.run_number }}
