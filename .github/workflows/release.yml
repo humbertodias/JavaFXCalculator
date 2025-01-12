@@ -22,13 +22,10 @@ jobs:
           java-version: '21'
           distribution: 'zulu'
           java-package: 'jdk+fx'
-#          cache: 'maven'
-
-      - name: Install dependencies
-        run: mvn clean install
+          cache: 'maven'
 
       - name: Build with Maven (JLink)
-        run: mvn javafx:jlink
+        run: mvn clean javafx:jlink
 
       - name: Determine Platform
         id: platform
