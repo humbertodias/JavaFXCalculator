@@ -50,6 +50,7 @@ jobs:
       - name: Check if Tag Exists
         id: check_tag
         run: |
+          TAG_NAME="v1.0.${{ github.run_number }}"
           echo "Checking if tag $TAG_NAME already exists..."
           if git tag -l | grep -q "^$TAG_NAME$"; then
             echo "Tag $TAG_NAME already exists. Skipping tag creation."
@@ -58,6 +59,7 @@ jobs:
             git tag $TAG_NAME
             git push origin $TAG_NAME
           fi
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
 
       - name: Upload Release Artifact
         uses: ncipollo/release-action@v1
