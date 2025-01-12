@@ -31,21 +31,10 @@ jobs:
       - name: Build with Maven (JLink)
         run: mvn clean javafx:jlink
 
-      - name: Determine Platform
-        id: platform
-        run: |
-          if [[ "$RUNNER_OS" == "Linux" ]]; then
-            echo "Platform=Ubuntu" >> $GITHUB_ENV
-          elif [[ "$RUNNER_OS" == "Darwin" ]]; then
-            echo "Platform=Mac" >> $GITHUB_ENV
-          elif [[ "$RUNNER_OS" == "Windows" ]]; then
-            echo "Platform=Windows" >> $GITHUB_ENV
-          fi
-
 #      - name: Create Release Artifact
 #        run: |
 #          mkdir -p release
-#          mv target/app.zip release/app-${{ env.Platform }}.zip
+#          mv target/app.zip release/app-${{ matrix.os }}.zip
 #
 #      - name: Check if Tag Exists
 #        id: check_tag
