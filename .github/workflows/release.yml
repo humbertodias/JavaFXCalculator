@@ -69,4 +69,4 @@ jobs:
         with:
           tag: ${{ env.TAG_NAME }}
           artifacts: "*.zip"
-          removeArtifacts: trues
+          removeArtifacts: true
