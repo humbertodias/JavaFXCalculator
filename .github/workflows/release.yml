@@ -10,9 +10,6 @@ name: JavaFX JLink Build and Release
 
 on:
   push:
-    branches:
-      - main
-      - master
     tags:
       - 'v*'
 
