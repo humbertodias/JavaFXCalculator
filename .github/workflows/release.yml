@@ -64,6 +64,6 @@ jobs:
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ TAG_NAME }}
+          tag: ${{ env.TAG_NAME }}
           files: |
             release/*.zip
