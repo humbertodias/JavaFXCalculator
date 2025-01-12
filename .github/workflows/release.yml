@@ -45,6 +45,11 @@ jobs:
         id: tag
         run: echo "TAG_NAME=$(echo ${{ github.ref }} | sed 's/refs\/tags\///')" >> $GITHUB_ENV
 
+      - name: Download Release Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: app-${{ matrix.os }}
+
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
