@@ -1,13 +1,5 @@
 name: JavaFX JLink Build and Release
 
-#on:
-#  push:
-#    branches:
-#      - main
-#      - master
-#  release:
-#    types: [created]
-
 on:
   push:
     tags:
@@ -36,16 +28,11 @@ jobs:
       - name: Build with Maven (JLink)
         run: mvn clean javafx:jlink
 
-      - name: Create Release Artifact
-        run: |
-          mkdir -p release
-          mv target/app.zip release/app-${{ matrix.os }}.zip
-
       - name: Upload Release Artifact
         uses: actions/upload-artifact@v3
         with:
           name: app-${{ matrix.os }}
-          path: release/app-${{ matrix.os }}.zip
+          path: target/*.zip
 
   release:
     needs: build
@@ -62,5 +49,4 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ env.TAG_NAME }}
-          files: |
-            release/*.zip
+          removeArtifacts: true
