@@ -31,33 +31,29 @@ jobs:
       - name: Build with Maven (JLink)
         run: mvn clean javafx:jlink
 
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-${{ matrix.os }}
-          path: target/*.zip
+      - name: Create Release Artifact
+        run: |
+          mkdir -p release
+          mv target/app.zip release/app-${{ matrix.os }}.zip
 
-#      - name: Create Release Artifact
-#        run: |
-#          mkdir -p release
-#          mv target/app.zip release/app-${{ matrix.os }}.zip
-#
-#      - name: Check if Tag Exists
-#        id: check_tag
-#        run: |
-#          TAG_NAME="v1.0.${{ github.run_number }}"
-#          echo "Checking if tag $TAG_NAME already exists..."
-#          if git tag -l | grep -q "^$TAG_NAME$"; then
-#            echo "Tag $TAG_NAME already exists. Skipping tag creation."
-#          else
-#            echo "Tag $TAG_NAME does not exist. Creating new tag."
-#            git tag $TAG_NAME
-#            git push origin $TAG_NAME
-#          fi
-#          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
-#
-#      - name: Upload Release Artifact
-#        uses: ncipollo/release-action@v1
-#        with:
-#          artifacts: release/app-${{ env.Platform }}.zip
-#          tag: v1.0.${{ env.TAG_NAME }}
+      - name: Upload Release Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-${{ matrix.os }}
+          path: release/app-${{ matrix.os }}.zip
+
+release:
+  needs: build
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Create GitHub Release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: ${{ github.ref }}
+        files: |
+          release/app-ubuntu-latest.zip
+          release/app-macos-latest.zip
+          release/app-windows-latest.zip
