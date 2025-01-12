@@ -1,0 +1,52 @@
+name: JavaFX JLink Build and Release
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'adoptopenjdk'
+          cache: 'maven'
+
+      - name: Install dependencies
+        run: mvn clean install
+
+      - name: Build with Maven (JLink)
+        run: mvn javafx:jlink
+
+      - name: Determine Platform
+        id: platform
+        run: |
+          if [[ "$RUNNER_OS" == "Linux" ]]; then
+            echo "Platform=Ubuntu" >> $GITHUB_ENV
+          elif [[ "$RUNNER_OS" == "Darwin" ]]; then
+            echo "Platform=Mac" >> $GITHUB_ENV
+          elif [[ "$RUNNER_OS" == "Windows" ]]; then
+            echo "Platform=Windows" >> $GITHUB_ENV
+          fi
+
+      - name: Create Release Artifact
+        run: |
+          mkdir -p release
+          mv target/app.zip release/app-${{ env.Platform }}.zip
+
+      - name: Upload Release Artifact
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: release/app-${{ env.Platform }}.zip
+          tag: ${{ github.sha }}
